@@ -1,71 +1,121 @@
 import './App.css';
-import './index.css'
-import React, {useState} from 'react'
+import './index.css';
+import React, { useState } from 'react';
  
 function App() {
+  const [weight, setWeight] = useState('');
+  const [height, setHeight] = useState('');
+  const [bmi, setBmi] = useState('');
+  const [message, setMessage] = useState('');
+  const [status, setStatus] = useState('');
  
-  // state
-  const [weight, setWeight] = useState(0)
-  const [height, setHeight] = useState(0)
-  const [bmi, setBmi] = useState('')
-  const [message, setMessage] = useState('')
+  const calcBmi = (event) => {
+    event.preventDefault();
  
-  let calcBmi = (event) => {
-    //prevent submitting to the server
-    event.preventDefault()
- 
-    if (weight === 0 || height === 0) {
-      alert('Please enter a valid weight and height')
-    } else {
-      let bmi = (weight / (height * height) * 703)
-      setBmi(bmi.toFixed(1))
- 
-      // Logic for message
- 
-      if (bmi < 25) {
-        setMessage('You are underweight')
-      } else if (bmi >= 25 && bmi < 30) {
-        setMessage('You are a healthy weight')
-      } else {
-        setMessage('You are overweight')
-      }
+    if (!weight || !height) {
+      alert('Please enter a valid weight and height');
+      return;
     }
-  }
  
+    const rawBmi = (weight / (height * height) * 703);
+    const roundedBmi = rawBmi.toFixed(1);
+    setBmi(roundedBmi);
  
-  let reload = () => {
-    window.location.reload()
-  }
+    if (rawBmi < 25) {
+      setMessage('You are underweight');
+      setStatus('underweight');
+    } else if (rawBmi >= 25 && rawBmi < 30) {
+      setMessage('You are a healthy weight');
+      setStatus('healthy');
+    } else {
+      setMessage('You are overweight');
+      setStatus('overweight');
+    }
+  };
+ 
+  const resetForm = () => {
+    setWeight('');
+    setHeight('');
+    setBmi('');
+    setMessage('');
+    setStatus('');
+  };
  
   return (
     <div className="app">
-    <div className='container'>
-      <h2 className='center'>BMI Calculator</h2>
-      <form onSubmit={calcBmi}>
- 
-        <div>
-          <label>Weight (lbs)</label>
-          <input value={weight} onChange={(e) => setWeight(e.target.value)} />
+      <div className="container">
+        <div className="hero">
+          <div>
+            <p className="eyebrow">Health & Wellness</p>
+            <h1>BMI Calculator</h1>
+            <p className="hero-text">
+              Enter your weight and height to get a quick BMI reading and see how you compare to healthy ranges.
+            </p>
+          </div>
+          <div className="hero-badge">Fast · Simple · Friendly</div>
         </div>
  
-        <div>
-          <label>Height (in)</label>
-          <input value={height} onChange={(event) => setHeight(event.target.value)} />
-        </div>
+        <form onSubmit={calcBmi} className="form-grid">
+          <div className="field">
+            <label>Weight (lbs)</label>
+            <input
+              type="number"
+              min="0"
+              value={weight}
+              onChange={(e) => setWeight(e.target.value)}
+              placeholder="e.g. 150"
+            />
+          </div>
  
-        <div>
-          <button className='btn' type='submit'>Submit</button>
-          <button className='btn btn-outline' onClick={reload} type='submit'>Reload</button>
-        </div>
-      </form>
+          <div className="field">
+            <label>Height (in)</label>
+            <input
+              type="number"
+              min="0"
+              value={height}
+              onChange={(e) => setHeight(e.target.value)}
+              placeholder="e.g. 65"
+            />
+          </div>
  
-      <div className='center'>
-        <h3>Your BMI is: {bmi}</h3>
-        <p>{message}</p>
+          <div className="form-actions">
+            <button className="btn" type="submit">
+              Calculate BMI
+            </button>
+            <button className="btn btn-outline" type="button" onClick={resetForm}>
+              Reset
+            </button>
+          </div>
+        </form>
+ 
+        {bmi && (
+          <div className="result-card">
+            <div className="result-heading">
+              <p>Result</p>
+              <span className={`status-pill ${status}`}>{message}</span>
+            </div>
+            <div className="bmi-value">{bmi}</div>
+            <p className="result-detail">BMI value based on your current weight and height.</p>
+          </div>
+        )}
+ 
+        <div className="scale-grid">
+          <div className="scale-card underweight">
+            <h4>Underweight</h4>
+            <p>&lt; 25</p>
+          </div>
+          <div className="scale-card healthy">
+            <h4>Healthy</h4>
+            <p>25 - 29.9</p>
+          </div>
+          <div className="scale-card overweight">
+            <h4>Overweight</h4>
+            <p>≥ 30</p>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
   );
 }
-
+ 
 export default App;
