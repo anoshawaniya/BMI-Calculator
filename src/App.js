@@ -8,6 +8,7 @@ function App() {
   const [bmi, setBmi] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('');
+  const [dietPlan, setDietPlan] = useState('');
  
   const calcBmi = (event) => {
     event.preventDefault();
@@ -22,15 +23,18 @@ function App() {
     const roundedBmi = rawBmi.toFixed(1);
     setBmi(roundedBmi);
  
-    if (rawBmi < 25) {
+    if (rawBmi < 18.5) {
       setMessage('You are underweight');
       setStatus('underweight');
-    } else if (rawBmi >= 25 && rawBmi < 30) {
+      setDietPlan('Diet plan: add nutrient-rich meals with extra protein, healthy fats, and frequent snacks.');
+    } else if (rawBmi >= 18.5 && rawBmi < 25) {
       setMessage('You are a healthy weight');
       setStatus('healthy');
+      setDietPlan('Diet plan: maintain balance with vegetables, lean protein, whole grains, and regular hydration.');
     } else {
       setMessage('You are overweight');
       setStatus('overweight');
+      setDietPlan('Diet plan: focus on portion control, more vegetables, less refined sugar, and regular activity.');
     }
   };
  
@@ -40,6 +44,7 @@ function App() {
     setBmi('');
     setMessage('');
     setStatus('');
+    setDietPlan('');
   };
  
   return (
@@ -58,19 +63,21 @@ function App() {
  
         <form onSubmit={calcBmi} className="form-grid">
           <div className="field">
-            <label>Weight (kg)</label>
+            <label htmlFor="weight">Weight (kg)</label>
             <input
+              id="weight"
               type="number"
               min="0"
               value={weight}
               onChange={(e) => setWeight(e.target.value)}
-              placeholder="e.g. 150"
+              placeholder="e.g. 70"
             />
           </div>
  
           <div className="field">
-            <label>Height (ft)</label>
+            <label htmlFor="height">Height (ft)</label>
             <input
+              id="height"
               type="number"
               min="0"
               step="0.1"
@@ -98,21 +105,22 @@ function App() {
             </div>
             <div className="bmi-value">{bmi}</div>
             <p className="result-detail">BMI value based on your current weight and height.</p>
+            <p className="result-detail"><strong>Diet plan:</strong> {dietPlan}</p>
           </div>
         )}
  
         <div className="scale-grid">
           <div className="scale-card underweight">
             <h4>Underweight</h4>
-            <p>&lt; 25</p>
+            <p>&lt; 18.5</p>
           </div>
           <div className="scale-card healthy">
             <h4>Healthy</h4>
-            <p>25 - 29.9</p>
+            <p>18.5 - 24.9</p>
           </div>
           <div className="scale-card overweight">
             <h4>Overweight</h4>
-            <p>≥ 30</p>
+            <p>≥ 25</p>
           </div>
         </div>
       </div>
