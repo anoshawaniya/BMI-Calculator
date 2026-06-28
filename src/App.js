@@ -12,12 +12,13 @@ function App() {
   const calcBmi = (event) => {
     event.preventDefault();
  
-    if (!weight || !height) {
+    if (!weight || !height || Number(height) <= 0) {
       alert('Please enter a valid weight and height');
       return;
     }
  
-    const rawBmi = (weight / (height * height) * 703);
+    const heightMeters = Number(height) * 0.3048;
+    const rawBmi = Number(weight) / (heightMeters * heightMeters);
     const roundedBmi = rawBmi.toFixed(1);
     setBmi(roundedBmi);
  
@@ -57,7 +58,7 @@ function App() {
  
         <form onSubmit={calcBmi} className="form-grid">
           <div className="field">
-            <label>Weight (lbs)</label>
+            <label>Weight (kg)</label>
             <input
               type="number"
               min="0"
@@ -68,13 +69,14 @@ function App() {
           </div>
  
           <div className="field">
-            <label>Height (in)</label>
+            <label>Height (ft)</label>
             <input
               type="number"
               min="0"
+              step="0.1"
               value={height}
               onChange={(e) => setHeight(e.target.value)}
-              placeholder="e.g. 65"
+              placeholder="e.g. 5.8"
             />
           </div>
  
