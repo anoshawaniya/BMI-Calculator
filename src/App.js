@@ -9,6 +9,7 @@ function App() {
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('');
   const [dietPlan, setDietPlan] = useState('');
+  const [routinePlan, setRoutinePlan] = useState('');
  
   const calcBmi = (event) => {
     event.preventDefault();
@@ -26,15 +27,18 @@ function App() {
     if (rawBmi < 18.5) {
       setMessage('You are underweight');
       setStatus('underweight');
-      setDietPlan('Diet plan: add nutrient-rich meals with extra protein, healthy fats, and frequent snacks.');
+      setDietPlan('Eat 3 balanced meals and 2–3 calorie-dense snacks daily. Include eggs, dairy, peanut butter, oats, chicken, rice, avocado, and fruit to build strength and support healthy weight gain.');
+      setRoutinePlan('Start the day with a nourishing breakfast, keep your meals regular, add light stretching or a short walk, and include strength activity a few times each week so your body gets the energy and recovery it needs.');
     } else if (rawBmi >= 18.5 && rawBmi < 25) {
       setMessage('You are a healthy weight');
       setStatus('healthy');
-      setDietPlan('Diet plan: maintain balance with vegetables, lean protein, whole grains, and regular hydration.');
+      setDietPlan('Maintain balance with vegetables, lean protein, whole grains, healthy fats, and steady hydration. Aim for regular meals and limit excess sugar and fried foods.');
+      setRoutinePlan('Keep a steady routine with balanced meals, daily movement, enough water, and a consistent sleep schedule to support long-term health and energy.');
     } else {
       setMessage('You are overweight');
       setStatus('overweight');
-      setDietPlan('Diet plan: focus on portion control, more vegetables, less refined sugar, and regular activity.');
+      setDietPlan('Focus on portion control, more vegetables, high-fiber foods, lean protein, and less refined sugar. Choose water, soups, and smaller servings to support gradual weight loss.');
+      setRoutinePlan('Build a simple daily rhythm with regular meals, a brisk walk, moderate exercise several times a week, and a calm evening routine to support gradual, healthy progress.');
     }
   };
  
@@ -45,6 +49,7 @@ function App() {
     setMessage('');
     setStatus('');
     setDietPlan('');
+    setRoutinePlan('');
   };
  
   return (
@@ -106,6 +111,7 @@ function App() {
             <div className="bmi-value">{bmi}</div>
             <p className="result-detail">BMI value based on your current weight and height.</p>
             <p className="result-detail"><strong>Diet plan:</strong> {dietPlan}</p>
+            <p className="result-detail"><strong>Daily routine:</strong> {routinePlan}</p>
           </div>
         )}
  

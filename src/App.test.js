@@ -61,3 +61,17 @@ test('shows a diet plan after calculating BMI', () => {
 
   expect(screen.getByText(/maintain balance with vegetables/i)).toBeInTheDocument();
 });
+
+test('shows a full daily routine plan after calculating BMI', () => {
+  render(<App />);
+
+  fireEvent.change(screen.getByLabelText(/weight \(kg\)/i), {
+    target: { value: '70' },
+  });
+  fireEvent.change(screen.getByLabelText(/height \(ft\)/i), {
+    target: { value: '5.8' },
+  });
+  fireEvent.click(screen.getByRole('button', { name: /calculate bmi/i }));
+
+  expect(screen.getByText(/daily routine/i)).toBeInTheDocument();
+});
